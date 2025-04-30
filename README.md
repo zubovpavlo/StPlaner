@@ -108,3 +108,20 @@ Reprezentuje jednotlivou studijní aktivitu v rámci předmětu.
 
 **Metoda:**
 - `Main()` – vstupní bod programu, spouští `LoginForm`
+
+
+### Zápis a načítání dat
+
+**1. Kde ve vašem kódu probíhá ukládání dat do souboru?**  
+Ukládání probíhá ve statické třídě `JsonDataManager`. Například metoda `SaveStudents()` volá privátní metodu `SaveData<T>()`, která pomocí `File.WriteAllText()` uloží JSON obsah do souboru.
+
+**2. Jak se načítají data při spuštění programu?**  
+Všechny metody `LoadX()` z `JsonDataManager` se volají podle potřeby — např. při přihlašování `LoadStudents()`, při otevření hlavní obrazovky `LoadCourses()`. Pokud soubor neexistuje, vrací se prázdný seznam.
+
+### Logika a výpočty
+
+**3. Jak se počítá pokrok studia?**  
+Vlastnost `Progress` v třídě `Course` volá metodu `CalculateProgress()`, která spočítá součet dokončených hodin z `StudySchedules` a vrátí procento dokončení podle celkového času.
+
+**4. Jak se určují dny, kdy má probíhat studium?**  
+Metoda `GenerateStudySchedule()` z `ScheduleService` kontroluje každé datum od `StartDate` do `EndDate`, vynechává víkendy a české svátky (`DateTimeUtils.GetCzechHolidays()`), a rovnoměrně rozděluje studijní hodiny na zbývající pracovní dny.
