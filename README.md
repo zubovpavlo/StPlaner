@@ -1,101 +1,160 @@
-BCSH1
-Téma:
+StPlaner
 Jednoduchá databázová aplikace pro správu studijního plánu
 
-Zubov Pavlo										Pardubice
-ST67136										16 . 04 . 2025
-________________________________________
-Popis projektu:
+Popis projektu
 Aplikace umožňuje studentům:
-•	Přidávat, upravovat a prohlížet studijní předměty
-•	Automaticky generovat plán domácí přípravy podle jednotlivých kurzů
-•	Označovat studijní aktivity jako splněné
-•	Přihlašovat se a spravovat svůj účet
-Data jsou uchovávána ve formátu JSON bez použití externí databáze. Aplikace je vytvořena jako desktopová aplikace pomocí Windows Forms.
-________________________________________
-Implementované funkce:
-•	Registrace a přihlášení uživatelů
-•	Správa seznamu předmětů
-•	Automatická tvorba rozvrhu na základě kreditové hodnoty
-•	Výpočet celkového pokroku v kurzu
-•	Možnost označit splněné aktivity
-________________________________________
+
+Přidávat, upravovat a prohlížet studijní předměty
+
+Automaticky generovat plán domácí přípravy podle jednotlivých kurzů
+
+Označovat studijní aktivity jako splněné
+
+Přihlašovat se a spravovat svůj účet
+
+Data jsou uchovávána ve formátu JSON bez použití externí databáze. Aplikace je vytvořena jako desktopová aplikace pomocí Windows Forms (C#, .NET Framework).
+
+Implementované funkce
+Registrace a přihlášení uživatelů
+
+Správa seznamu předmětů
+
+Automatická tvorba rozvrhu na základě kreditové hodnoty (ECTS)
+
+Výpočet celkového pokroku v kurzu
+
+Možnost označit splněné aktivity
+
 Popis tříd
 Student
 Reprezentuje entitu studenta.
+
 Atributy:
-•	int ID – identifikátor studenta
-•	string Name – celé jméno studenta
-•	string Username – uživatelské jméno (login)
-•	string Password – heslo (nešifrované, pouze pro demonstrační účely)
-•	List<int> Courses – seznam ID přiřazených kurzů
+
+int ID
+
+string Name
+
+string Username
+
+string Password
+
+List<int> Courses
+
 Konstruktory:
-•	Student() – výchozí konstruktor
-•	Student(int id, string name, string username, string password) – konstruktor s validací vstupů
-________________________________________
+
+Student()
+
+Student(int id, string name, string username, string password)
+
 Course
 Reprezentuje studijní předmět.
+
 Atributy:
-•	int ID
-•	string Name
-•	int ECTS
-•	DateTime StartDate, EndDate
-•	string Status – například "aktivní"
-•	List<StudySchedule> StudySchedules – seznam aktivit
-•	double Progress – vypočítaný pokrok (v procentech)
+
+int ID
+
+string Name
+
+int ECTS
+
+DateTime StartDate, EndDate
+
+string Status
+
+List<StudySchedule> StudySchedules
+
+double Progress
+
 Konstruktory:
-•	Course()
-•	Course(int id, string name, int ects, DateTime startDate, DateTime endDate, string status)
+
+Course()
+
+Course(int id, string name, int ects, DateTime startDate, DateTime endDate, string status)
+
 Metody:
-•	CalculateProgress() – vypočítává pokrok na základě dokončených aktivit
-________________________________________
+
+CalculateProgress()
+
 StudySchedule
 Reprezentuje jednotlivou studijní aktivitu v rámci předmětu.
+
 Atributy:
-•	int ID
-•	DateTime Date
-•	int CourseID
-•	string CourseName
-•	double StudyHours
-•	bool Completed
+
+int ID
+
+DateTime Date
+
+int CourseID
+
+string CourseName
+
+double StudyHours
+
+bool Completed
+
 Konstruktory:
-•	StudySchedule()
-•	StudySchedule(int id, DateTime date, int courseId, string courseName, double studyHours, bool completed)
-________________________________________
+
+StudySchedule()
+
+StudySchedule(int id, DateTime date, int courseId, string courseName, double studyHours, bool completed)
+
 AuthenticationService
 Zajišťuje autentizaci a správu uživatelských účtů.
+
 Metody:
-•	Authenticate(string username, string password) – ověřuje přihlášení
-•	GetCurrentUser() – vrací aktuálně přihlášeného uživatele
-•	Logout() – odhlášení
-•	RegisterStudent(Student student) – registrace nového uživatele
-•	DeleteStudent(Student student) – odstranění účtu
-•	IsUsernameTaken(string username) – kontrola dostupnosti uživatelského jména
-•	GetNextStudentID() – generování nového ID
-________________________________________
+
+Authenticate(string username, string password)
+
+GetCurrentUser()
+
+Logout()
+
+RegisterStudent(Student student)
+
+DeleteStudent(Student student)
+
+IsUsernameTaken(string username)
+
+GetNextStudentID()
+
 ScheduleService
 Zajišťuje tvorbu a úpravu studijního rozvrhu.
+
 Metody:
-•	GenerateStudySchedule(Course course) – generuje plán aktivit
-•	UpdateStudySchedule(Course course, List<StudySchedule> existingSchedules) – aktualizuje plán kurzu
-________________________________________
+
+GenerateStudySchedule(Course course)
+
+UpdateStudySchedule(Course course, List<StudySchedule> existingSchedules)
+
 JsonDataManager
-Statická třída pro práci s lokálně uloženými daty ve formátu JSON.
+Statická třída pro práci s daty uloženými v JSON souborech.
+
 Metody:
-•	LoadStudents(), SaveStudents()
-•	LoadCourses(), SaveCourses()
-•	LoadStudySchedules(), SaveStudySchedules()
-•	LoadData<T>(), SaveData<T>() – privátní generické metody pro načtení a zápis
-________________________________________
+
+LoadStudents(), SaveStudents()
+
+LoadCourses(), SaveCourses()
+
+LoadStudySchedules(), SaveStudySchedules()
+
+LoadData<T>(), SaveData<T>()
+
 DateTimeUtils
 Pomocná třída pro práci s daty a časem.
+
 Metody:
-•	CalculateDaysBetween(DateTime start, DateTime end) – počet dnů mezi dvěma daty
-•	FormatStudyHours(double studyHours) – formátování počtu hodin do čitelné podoby
-•	GetCzechHolidays(int year) – seznam státních svátků v ČR
-________________________________________
+
+CalculateDaysBetween(DateTime start, DateTime end)
+
+FormatStudyHours(double studyHours)
+
+GetCzechHolidays(int year)
+
 Program
 Hlavní třída aplikace.
+
 Metoda:
-•	Main() – vstupní bod programu, spouští formulář LoginForm
-________________________________________
+
+Main() – vstupní bod programu, spouští formulář LoginForm
+
